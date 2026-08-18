@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Niche Finder Pro by Serpico AI Learning Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#0F7BA8;
+    --accent-dark:#0B5C80;
+    --navy:#091F44;
+    --white:#FFFFFF;
+    --amber:#E8951A;
+    --gray-50:#F7F6F4;
+    --gray-100:#EFEDE9;
+    --gray-300:#D8D5CF;
+    --gray-600:#65605A;
+    --gray-800:#2A2723;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--gray-50);
+    color:var(--navy);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .app{max-width:780px;margin:0 auto;padding:0 20px 80px;position:relative;}
+  header.brand{
+    display:flex;align-items:center;gap:14px;
+    padding:28px 0 18px;
+  }
+  header.brand img{height:60px;width:auto;display:block;mix-blend-mode:multiply;}
+  .step-rings{display:flex;align-items:center;gap:6px;margin-left:auto;margin-right:14px;}
+  .ring{width:9px;height:9px;border-radius:50%;background:var(--gray-300);transition:all .4s ease;}
+  .ring.active{background:var(--accent);box-shadow:0 0 0 4px rgba(15,123,174,0.18);}
+  .ring.done{background:var(--navy);}
+
+  .tool-name-badge{
+    display:flex;align-items:center;gap:5px;
+    font-family:'Archivo Black',sans-serif;
+    font-size:.95rem;letter-spacing:.01em;
+    color:var(--navy);white-space:nowrap;
+    border-left:2px solid var(--gray-300);
+    padding-left:14px;margin-left:4px;
+  }
+  .tool-name-badge span{
+    background:var(--amber);color:var(--navy);
+    font-size:.72rem;padding:2px 7px;border-radius:4px;
+    letter-spacing:.06em;text-transform:uppercase;
+  }
+  .history-btn{
+    background:var(--white);border:2px solid var(--navy);border-radius:9px;
+    padding:8px 14px;font-weight:700;font-size:.82rem;cursor:pointer;
+    display:flex;align-items:center;gap:6px;font-family:'Inter',sans-serif;
+  }
+  .history-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .history-count{
+    background:var(--accent);color:var(--white);border-radius:50%;
+    width:18px;height:18px;font-size:.68rem;display:flex;align-items:center;justify-content:center;font-weight:800;
+  }
+
+  h1.hero{font-family:'Archivo Black',sans-serif;font-size:2.5rem;line-height:1.05;letter-spacing:-0.01em;margin:6px 0 10px;}
+  h1.hero .accent{color:var(--accent);}
+  p.lede{font-size:1.05rem;color:var(--gray-600);max-width:560px;margin:0 0 32px;line-height:1.55;}
+
+  .card{background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius);padding:22px 24px;margin-bottom:16px;}
+
+  label.field-label{display:block;font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-600);margin-bottom:8px;}
+  input[type=text], textarea{
+    width:100%;font-size:1.02rem;padding:14px 16px;border:2px solid var(--gray-300);border-radius:10px;
+    font-family:'Inter',sans-serif;font-weight:500;background:var(--white);
+  }
+  textarea{resize:vertical;min-height:70px;font-weight:400;font-size:1rem;}
+  input[type=text]:focus, textarea:focus{outline:none;border-color:var(--accent);}
+
+  .btn-primary{
+    background:var(--navy);color:var(--white);border:none;border-radius:10px;
+    padding:15px 26px;font-size:1rem;font-weight:700;font-family:'Inter',sans-serif;
+    cursor:pointer;display:inline-flex;align-items:center;gap:10px;transition:background .2s ease, transform .1s ease;
+  }
+  .btn-primary:hover{background:var(--accent);}
+  .btn-primary:active{transform:scale(.98);}
+  .btn-primary.disabled{background:var(--gray-300);cursor:not-allowed;pointer-events:none;}
+  .btn-secondary{
+    background:var(--white);color:var(--navy);border:2px solid var(--navy);border-radius:10px;
+    padding:13px 24px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;
+  }
+  .btn-secondary:hover{border-color:var(--accent);color:var(--accent);}
+  .btn-ghost{
+    background:none;border:none;color:var(--gray-600);font-family:'Inter',sans-serif;font-weight:600;
+    font-size:.9rem;cursor:pointer;text-decoration:underline;padding:4px;
+  }
+  .btn-small-tag{
+    background:var(--gray-50);border:1px solid var(--gray-300);border-radius:8px;
+    padding:8px 13px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;
+  }
+  .btn-small-tag:hover{border-color:var(--accent);color:var(--accent);}
+
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+
+  .droplet-loader{display:flex;flex-direction:column;align-items:center;padding:50px 10px;gap:18px;}
+  .droplet-loader svg{width:54px;height:54px;}
+  .droplet-loader .msg{font-weight:700;color:var(--gray-800);font-size:1rem;text-align:center;}
+  .droplet-loader .sub{color:var(--gray-600);font-size:.88rem;}
+  @keyframes pulse-drop{0%{transform:scale(1);opacity:1;}50%{transform:scale(1.12);opacity:.7;}100%{transform:scale(1);opacity:1;}}
+  .pulse{animation:pulse-drop 1.4s ease-in-out infinite;}
+  @keyframes ripple-grow{0%{r:6;opacity:.9;}100%{r:34;opacity:0;}}
+  .ripple{animation:ripple-grow 1.8s ease-out infinite;transform-origin:center;}
+  .mini-loader{display:flex;align-items:center;gap:10px;color:var(--gray-600);font-size:.88rem;font-weight:600;padding:10px 0;}
+  .mini-spin{width:14px;height:14px;border-radius:50%;border:2px solid var(--gray-300);border-top-color:var(--accent);animation:spin 0.8s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  .eyebrow{font-size:.74rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+
+  .niche-card{
+    border:2px solid var(--gray-100);border-radius:var(--radius);padding:22px;margin-bottom:14px;cursor:pointer;
+    transition:border-color .15s ease, transform .1s ease;background:var(--white);position:relative;
+  }
+  .niche-card:hover{border-color:var(--accent);}
+  .niche-card.picked{border-color:var(--accent);background:#EFF7FC;}
+  .niche-rank{display:inline-block;font-family:'Archivo Black',sans-serif;font-size:.78rem;background:var(--navy);color:var(--white);padding:3px 9px;border-radius:5px;margin-bottom:10px;}
+  .niche-rank.top{background:var(--amber);color:var(--navy);}
+  .niche-name{font-size:1.22rem;font-weight:800;margin:0 0 6px;}
+  .niche-problem{font-size:.96rem;color:var(--gray-800);margin:0 0 12px;line-height:1.5;}
+  .why-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px;}
+  .why-item{background:var(--gray-50);border-radius:8px;padding:9px 10px;}
+  .why-item .k{font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--gray-600);}
+  .why-item .v{font-size:.86rem;font-weight:600;margin-top:2px;}
+  .reasoning{font-size:.88rem;color:var(--gray-600);line-height:1.6;margin-top:12px;}
+  @media(max-width:520px){.why-grid{grid-template-columns:1fr;}}
+
+  .format-card{border:2px solid var(--gray-100);border-radius:var(--radius);padding:20px;margin-bottom:14px;cursor:pointer;transition:border-color .15s ease;background:var(--white);}
+  .format-card:hover{border-color:var(--accent);}
+  .format-card.picked{border-color:var(--accent);background:#EFF7FC;}
+  .format-name{font-size:1.1rem;font-weight:800;margin:0 0 4px;}
+  .format-meta{display:flex;gap:14px;font-size:.82rem;color:var(--gray-600);margin:6px 0 10px;flex-wrap:wrap;}
+  .format-meta span{display:flex;align-items:center;gap:5px;}
+
+  .competitor-panel{background:var(--gray-50);border-radius:var(--radius);padding:18px 20px;margin:6px 0 20px;}
+  .competitor-panel .title{font-weight:800;font-size:.85rem;text-transform:uppercase;letter-spacing:.04em;color:var(--gray-600);margin-bottom:12px;}
+  .competitor-item{background:var(--white);border:1px solid var(--gray-100);border-radius:10px;padding:14px 16px;margin-bottom:10px;}
+  .competitor-item:last-child{margin-bottom:0;}
+  .competitor-item .cname{font-weight:800;font-size:.95rem;margin-bottom:4px;}
+  .competitor-item .cprice{display:inline-block;background:var(--accent);color:var(--white);font-weight:800;font-size:.8rem;padding:3px 10px;border-radius:5px;margin-bottom:8px;}
+  .competitor-item .cgap{font-size:.86rem;color:var(--gray-600);line-height:1.5;}
+  .competitor-item .cgap b{color:var(--gray-800);font-weight:700;}
+
+  .offer-block{background:var(--navy);color:var(--white);border-radius:var(--radius);padding:26px 26px 22px;margin-top:6px;}
+  .offer-block .offer-name{font-family:'Archivo Black',sans-serif;font-size:1.5rem;color:var(--white);margin:4px 0 10px;}
+  .offer-block .price-tag{display:inline-block;background:var(--amber);color:var(--navy);font-weight:800;padding:6px 14px;border-radius:8px;font-size:1rem;margin-bottom:14px;}
+  .offer-block p{line-height:1.65;color:#E8E6E2;font-size:.95rem;margin:0 0 4px;}
+  .offer-block .label{color:var(--amber);font-weight:800;font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;margin:20px 0 5px;}
+
+  .locked-summary{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--gray-100);border-radius:10px;padding:12px 16px;margin-bottom:22px;font-size:.9rem;flex-wrap:wrap;}
+  .locked-summary b{font-weight:800;}
+  .locked-summary .actions{display:flex;gap:14px;}
+
+  .footer-note{color:var(--gray-600);font-size:.82rem;text-align:center;margin-top:30px;line-height:1.5;}
+  .error-box{background:#FFF1F1;border:1px solid #D93025;color:#B3261E;padding:14px 16px;border-radius:10px;font-size:.9rem;margin-bottom:16px;}
+
+  .verdict-box{border-radius:var(--radius);padding:22px;margin-top:14px;}
+  .verdict-box.validated{background:#F0FBF1;border:2px solid #2E9E3F;}
+  .verdict-box.notyet{background:#FFF8EE;border:2px solid #D98A1A;}
+  .verdict-title{font-family:'Archivo Black',sans-serif;font-size:1.2rem;margin-bottom:8px;}
+  .verdict-box.validated .verdict-title{color:#2E9E3F;}
+  .verdict-box.notyet .verdict-title{color:#D98A1A;}
+  .verdict-section{margin-top:10px;font-size:.9rem;line-height:1.55;}
+  .verdict-section b{display:block;font-size:.74rem;text-transform:uppercase;letter-spacing:.05em;color:var(--gray-600);margin-bottom:3px;}
+
+  .question-chip{background:var(--gray-50);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:12px 14px;margin-bottom:10px;font-size:.92rem;}
+
+  .outreach-card{background:var(--gray-50);border-radius:10px;padding:16px 18px;margin-bottom:12px;}
+  .outreach-card .ch-label{font-weight:800;font-size:.76rem;text-transform:uppercase;letter-spacing:.05em;color:var(--accent);margin-bottom:6px;}
+  .outreach-card pre{white-space:pre-wrap;font-family:'Inter',sans-serif;font-size:.9rem;margin:0;line-height:1.5;}
+  .copy-btn{margin-top:8px;}
+
+  .history-overlay{
+    position:fixed;inset:0;background:rgba(10,10,10,0.55);z-index:50;
+    display:flex;justify-content:flex-end;
+  }
+  .history-panel{
+    background:var(--white);width:380px;max-width:92vw;height:100%;padding:24px 22px;overflow-y:auto;
+    box-shadow:-8px 0 30px rgba(0,0,0,0.2);
+  }
+  .history-panel h2{font-family:'Archivo Black',sans-serif;font-size:1.3rem;margin:0 0 16px;}
+  .history-item{border:2px solid var(--gray-100);border-radius:10px;padding:14px 16px;margin-bottom:10px;cursor:pointer;}
+  .history-item:hover{border-color:var(--accent);}
+  .history-item .topic{font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--gray-600);font-weight:800;}
+  .history-item .top-niche{font-weight:700;font-size:.95rem;margin:4px 0 2px;}
+  .history-item .date{font-size:.76rem;color:var(--gray-600);}
+  .empty-history{color:var(--gray-600);font-size:.9rem;}
+  .close-history{float:right;}
+
+  .build-guide{margin-top:22px;}
+  .build-tool-banner{
+    background:var(--navy);color:var(--white);border-radius:var(--radius);
+    padding:20px 22px;margin-bottom:16px;
+  }
+  .build-tool-banner .tool-name{font-family:'Archivo Black',sans-serif;font-size:1.3rem;margin:4px 0 6px;}
+  .build-tool-banner .tool-url{color:var(--amber);font-weight:700;font-size:.9rem;text-decoration:none;}
+  .build-tool-banner .tool-url:hover{text-decoration:underline;}
+  .build-tool-banner .tool-why{color:#E8E6E2;font-size:.9rem;margin:8px 0 0;line-height:1.5;}
+  .build-section-title{font-family:'Archivo Black',sans-serif;font-size:1rem;margin:20px 0 10px;}
+  .build-step{
+    display:flex;gap:14px;align-items:flex-start;
+    background:var(--white);border:1px solid var(--gray-100);border-radius:10px;
+    padding:14px 16px;margin-bottom:10px;
+  }
+  .build-step-num{
+    background:var(--accent);color:var(--white);font-family:'Archivo Black',sans-serif;
+    font-size:.8rem;min-width:26px;height:26px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
+  }
+  .build-step-text{font-size:.92rem;line-height:1.55;color:var(--gray-800);}
+  .content-piece{
+    background:var(--white);border:2px solid var(--gray-100);border-radius:var(--radius);
+    margin-bottom:14px;overflow:hidden;
+  }
+  .content-piece-header{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:14px 16px;cursor:pointer;gap:10px;
+  }
+  .content-piece-header:hover{background:var(--gray-50);}
+  .content-piece-title{font-weight:800;font-size:.95rem;}
+  .content-piece-toggle{font-size:1.1rem;color:var(--gray-600);flex-shrink:0;}
+  .content-piece-body{
+    padding:0 16px 16px;border-top:1px solid var(--gray-100);
+    display:none;
+  }
+  .content-piece-body.open{display:block;}
+  .content-piece-body pre{
+    white-space:pre-wrap;font-family:'Inter',sans-serif;font-size:.88rem;
+    line-height:1.6;margin:12px 0 0;color:var(--gray-800);
+  }
+  .copy-chip{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--gray-50);border:1px solid var(--gray-300);border-radius:7px;
+    padding:6px 12px;font-size:.78rem;font-weight:700;cursor:pointer;margin-top:10px;
+    font-family:'Inter',sans-serif;
+  }
+  .copy-chip:hover{border-color:var(--accent);color:var(--accent);}
+  .copy-chip.copied{border-color:#2E9E3F;color:#2E9E3F;}
+  .build-tool-banner .tool-url{word-break:break-all;}
+  @media(max-width:480px){
+    header.brand{gap:10px;}
+    header.brand img{height:46px;}
+    .tool-name-badge{font-size:.8rem;padding-left:10px;margin-left:0;}
+    .tool-name-badge span{font-size:.62rem;padding:2px 5px;}
+    .step-rings{display:none;}
+    .history-btn{padding:7px 10px;font-size:.76rem;margin-left:auto;}
+  }
+  @media print{
+    header.brand .history-btn, header.brand .step-rings, .footer-note, .history-overlay{display:none !important;}
+  }
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+
+<script>
+const LOGO_SRC = "data:image/jpeg;base64,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";
+const STEP_LABELS = ["Topic","Research","Niche","Format","Offer"];
+const STEP_ORDER = ["topic","researching","niche","validate","format","offer"];
+
+function blankSession(){
+  return {
+    topic: "",
+    step: "topic",
+    niches: null,
+    pickedNicheIdx: null,
+    validation: { answers: ["", "", "", "", ""], verdict: null, loading: false },
+    formats: null,
+    competitors: null,
+    competitorsLoading: false,
+    pickedFormatIdx: null,
+    offer: null,
+    outreach: null,
+    outreachLoading: false,
+    buildGuide: null,
+    buildGuideLoading: false,
+    createdAt: null,
+  };
+}
+
+let state = {
+  session: blankSession(),
+  history: [], // archived sessions
+  loading: false,
+  loadingStage: "",
+  error: null,
+  showHistory: false,
+};
+
+function ringIndexFor(step){
+  if(step==="topic") return 0;
+  if(step==="researching") return 1;
+  if(step==="niche" || step==="validate") return 2;
+  if(step==="format") return 3;
+  if(step==="offer") return 4;
+  return 0;
+}
+
+function render(){
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    ${renderHeader()}
+    ${state.showHistory ? renderHistoryOverlay() : ''}
+    ${renderBody()}
+  `;
+  attachHandlers();
+}
+
+function renderHeader(){
+  const activeIdx = ringIndexFor(state.session.step);
+  return `
+  <header class="brand">
+    <img src="${LOGO_SRC}" alt="Serpico AI Learning Center" />
+    <div class="tool-name-badge">Niche Finder <span>Pro</span></div>
+    <div class="step-rings">
+      ${STEP_LABELS.map((l,i)=>{
+        let cls='ring';
+        if(i<activeIdx) cls+=' done'; else if(i===activeIdx) cls+=' active';
+        return `<div class="${cls}" title="${l}"></div>`;
+      }).join('')}
+    </div>
+    <div class="history-btn" role="button" id="openHistoryBtn">History ${state.history.length?`<span class="history-count">${state.history.length}</span>`:''}</div>
+  </header>`;
+}
+
+function renderHistoryOverlay(){
+  return `
+  <div class="history-overlay" id="historyOverlay">
+    <div class="history-panel">
+      <div class="btn-ghost close-history" id="closeHistoryBtn" role="button">close ✕</div>
+      <h2>Past research</h2>
+      ${state.history.length===0 ? '<p class="empty-history">Nothing archived yet. Research a topic, then start a new one. It will show up here so you can compare.</p>' : state.history.map((s,i)=>`
+        <div class="history-item" data-history-idx="${i}">
+          <div class="topic">${escapeHtml(s.topic)}</div>
+          <div class="top-niche">${s.niches && s.niches[0] ? escapeHtml(s.niches[0].niche) : ''}</div>
+          <div class="date">${s.createdAt ? new Date(s.createdAt).toLocaleString() : ''}</div>
+        </div>
+      `).join('')}
+    </div>
+  </div>`;
+}
+
+function renderBody(){
+  if(state.loading && state.session.step!=="format") return renderLoading();
+  const s = state.session;
+  if(s.step==="topic") return renderTopicEntry();
+  if(s.step==="niche") return renderNicheResults();
+  if(s.step==="validate") return renderValidate();
+  if(s.step==="format") return renderFormats();
+  if(s.step==="offer") return renderOffer();
+  return '';
+}
+
+function renderTopicEntry(){
+  return `
+  <h1 class="hero">Find the niche<br/><span class="accent">hiding in plain sight.</span></h1>
+  <p class="lede">Give me a broad topic, whether you know a lot about it or not.<br/><br/>I'll research real complaints, forums, and reviews. Then hand you three ranked niches with a named problem you can sell a solution to.<br/><br/>From there, we'll build your final product together.<br/><br/>You don't need to know anything about selling products online. I'll give you step-by-step instructions for selling it 24/7, on autopilot.</p>
+  <div class="card" style="padding-bottom:10px;">
+    <label class="field-label" for="topicInput">Broad topic</label>
+    <input type="text" id="topicInput" placeholder="e.g. personal finance, dog training, freelance writing" value="${escapeAttr(state.session.topic)}" />
+    ${state.error ? `<div style="height:10px"></div><div class="error-box">${escapeHtml(state.error)}</div>` : ''}
+  </div>
+  <div id="findNicheBtn" style="margin-top:10px;background:var(--navy);color:#fff;border-radius:10px;padding:20px 26px;font-size:1.05rem;font-weight:700;font-family:Inter,sans-serif;text-align:center;cursor:pointer;user-select:none;">Find my niche &rarr;</div>
+  <p style="margin:14px 0 0;font-size:.8rem;color:var(--gray-600);text-align:center;">Powered by Claude with live web research. Usually takes 30 to 60 seconds.</p>
+  `;
+}
+
+function renderLoading(){
+  return `
+  <div class="card droplet-loader">
+    <svg viewBox="0 0 60 60">
+      <circle class="ripple" cx="30" cy="30" r="6" fill="none" stroke="#E8951A" stroke-width="2"/>
+      <path class="pulse" d="M30 8 A22 22 0 1 1 8 30" fill="none" stroke="#0F7BA8" stroke-width="6" stroke-linecap="round"/>
+    </svg>
+    <div class="msg">${state.loadingStage || "Working..."}</div>
+    <div class="sub">This can take a minute.</div>
+  </div>`;
+}
+
+function renderNicheResults(){
+  const n = state.session.niches;
+  if(!n) return renderLoading();
+  const pickedOk = state.session.pickedNicheIdx !== null;
+  return `
+  <div class="eyebrow">Step 1–3 of the formula</div>
+  <h1 class="hero" style="font-size:2rem;">Three niches worth<br/><span class="accent">building on.</span></h1>
+  <p class="lede">Ranked by how badly people already want this solved. And how much they already pay to fix it.<br/><br/>Click on one niche, or none, then click at the bottom of the page.</p>
+  ${n.map((item,i)=>`
+    <div class="niche-card ${state.session.pickedNicheIdx===i?'picked':''}" data-niche-idx="${i}">
+      <span class="niche-rank ${i===0?'top':''}">${i===0?'★ TOP IDEA':(i===1?'2nd IDEA':'3rd IDEA')}</span>
+      <div class="niche-name">${escapeHtml(item.niche)}</div>
+      <p class="niche-problem"><b>The problem:</b> ${escapeHtml(item.problem)}</p>
+      <div class="why-grid">
+        <div class="why-item"><div class="k">Already paying?</div><div class="v">${escapeHtml(item.already_paying)}</div></div>
+        <div class="why-item"><div class="k">Emotional driver</div><div class="v">${escapeHtml(item.emotional_driver)}</div></div>
+        <div class="why-item"><div class="k">Evidence source</div><div class="v">${escapeHtml(item.evidence_source)}</div></div>
+      </div>
+      <div class="reasoning">${escapeHtml(item.reasoning)}</div>
+    </div>
+  `).join('')}
+  <div class="row" style="margin-top:8px;">
+    <div class="btn-primary" role="button" id="toValidateBtn">Continue →</div>
+  </div>
+  <div class="row" style="margin-top:14px;">
+    <div class="btn-ghost" role="button" id="newTopicBtn">Research a different topic</div>
+  </div>
+  `;
+}
+
+function renderValidate(){
+  const s = state.session;
+  const niche = s.niches[s.pickedNicheIdx];
+  const lockedSummary = `
+    <div class="locked-summary">
+      <span>Niche: <b>${escapeHtml(niche.niche)}</b></span>
+      <div class="actions"><div class="btn-ghost" role="button" id="backToNicheBtn">change niche</div></div>
+    </div>`;
+  const questions = [
+    `What have you already tried to fix "${niche.problem}"?`,
+    `Roughly how much time or money have you spent on it so far?`,
+    `What's the single most painful part of dealing with this?`
+  ];
+  return `
+  ${lockedSummary}
+  <div class="eyebrow">Step 3 of the formula. Validate before you build (optional)</div>
+  <h1 class="hero" style="font-size:2rem;">Ask 5 real people<br/><span class="accent">these 3 questions.</span></h1>
+  <p class="lede">This step is optional. You can skip straight to format options if you want to move fast.<br/><br/>But the strongest end product comes from real feedback. Worth the extra few minutes if you can spare them.<br/><br/>Text or DM these to 5 people who actually live with this problem. Paste what each person says below.</p>
+  <div class="card">
+    ${questions.map(q=>`<div class="question-chip">${escapeHtml(q)}</div>`).join('')}
+  </div>
+  <div class="card">
+    <label class="field-label">Log their answers (paste whatever they send, even rough notes)</label>
+    ${[0,1,2,3,4].map(i=>`
+      <div style="margin-bottom:10px;">
+        <label class="field-label" style="font-size:.7rem;">Person ${i+1}</label>
+        <textarea data-answer-idx="${i}" placeholder="Paste their reply here...">${escapeHtml(s.validation.answers[i]||'')}</textarea>
+      </div>
+    `).join('')}
+    ${state.error ? `<div class="error-box">${escapeHtml(state.error)}</div>` : ''}
+    <div class="btn-primary" role="button" id="getVerdictBtn">${s.validation.loading ? 'Analyzing...' : 'Get my verdict →'}</div>
+  </div>
+  ${s.validation.verdict ? renderVerdict(s.validation.verdict) : ''}
+  ${s.validation.verdict ? `
+    <div style="margin-top:16px;">
+      <div class="btn-primary" role="button" id="continueFromValidateBtn" style="text-align:center;justify-content:center;">Continue to format options →</div>
+    </div>
+  ` : ''}
+  `;
+}
+
+function renderVerdict(v){
+  const cls = (v.verdict && v.verdict.toLowerCase().includes('not')) ? 'notyet' : 'validated';
+  return `
+  <div class="verdict-box ${cls}">
+    <div class="verdict-title">${cls==='validated' ? '✓ Validated' : '⚠ Not validated yet'}: ${escapeHtml(v.verdict)}</div>
+    <div class="verdict-section"><b>Dollar test</b>${escapeHtml(v.dollar_test_summary)}</div>
+    <div class="verdict-section"><b>Already-paid test</b>${escapeHtml(v.already_paid_summary)}</div>
+    <div class="verdict-section"><b>Reasoning</b>${escapeHtml(v.reasoning)}</div>
+    <div class="verdict-section"><b>Recommendation</b>${escapeHtml(v.recommendation)}</div>
+  </div>`;
+}
+
+function renderFormats(){
+  const s = state.session;
+  const f = s.formats;
+  const picked = s.niches[s.pickedNicheIdx];
+  const lockedSummary = `
+    <div class="locked-summary">
+      <span>Niche: <b>${escapeHtml(picked.niche)}</b></span>
+      <div class="actions"><div class="btn-ghost" role="button" id="backToNicheBtn2">change</div></div>
+    </div>`;
+  if(!f) return lockedSummary + renderLoading();
+  const pickedOk = s.pickedFormatIdx !== null;
+  return `
+  <div class="eyebrow">Step 5 of the formula</div>
+  <h1 class="hero" style="font-size:2rem;">Pick the asset<br/><span class="accent">worth building.</span></h1>
+  <p class="lede">Each option fits the problem above.<br/><br/>Pick the one that matches the time and skill you actually have right now.</p>
+  ${lockedSummary}
+  ${f.map((item,i)=>`
+    <div class="format-card ${s.pickedFormatIdx===i?'picked':''}" data-format-idx="${i}">
+      <div class="format-name">${escapeHtml(item.name)}</div>
+      <div class="format-meta">
+        <span>⏱ ${escapeHtml(item.build_time)}</span>
+        <span>💵 Suggested price: ${escapeHtml(item.suggested_price)}</span>
+        <span>🛠 ${escapeHtml(item.difficulty)}</span>
+      </div>
+      <div class="reasoning">${escapeHtml(item.why_this_works)}</div>
+    </div>
+  `).join('')}
+  ${renderCompetitorPanel()}
+  <div class="row" style="margin-top:8px;">
+    <div class="btn-primary" role="button" id="continueOfferBtn">Lock this format →</div>
+  </div>
+  <div class="row" style="margin-top:14px;">
+    <div class="btn-ghost" role="button" id="newTopicBtn2">Research a different topic</div>
+  </div>
+  `;
+}
+
+function renderCompetitorPanel(){
+  const s = state.session;
+  if(s.competitorsLoading){
+    return `<div class="competitor-panel"><div class="title">What others already charge</div><div class="mini-loader"><div class="mini-spin"></div>Checking existing products and price points...</div></div>`;
+  }
+  if(!s.competitors || s.competitors.length===0) return '';
+  return `
+  <div class="competitor-panel">
+    <div class="title">What others already charge</div>
+    ${s.competitors.map(c=>`
+      <div class="competitor-item">
+        <div class="cname">${escapeHtml(c.name)}</div>
+        <div class="cprice">${escapeHtml(c.price)}</div>
+        <div class="cgap"><b>Gap you can fill:</b> ${escapeHtml(c.what_it_misses)}</div>
+      </div>
+    `).join('')}
+  </div>`;
+}
+
+function renderOffer(){
+  const s = state.session;
+  const niche = s.niches[s.pickedNicheIdx];
+  const format = s.formats[s.pickedFormatIdx];
+  const lockedSummary = `
+    <div class="locked-summary">
+      <span><b>${escapeHtml(niche.niche)}</b> → <b>${escapeHtml(format.name)}</b></span>
+      <div class="actions"><div class="btn-ghost" role="button" id="backToFormatBtn">change</div></div>
+    </div>`;
+
+  if(!s.offer && !state.loading){
+    return `
+    ${lockedSummary}
+    <h1 class="hero" style="font-size:2rem;">Want a full<br/><span class="accent">sellable offer?</span></h1>
+    <p class="lede">I can draft the pitch, the offer name, the price, and the payment page copy.<br/><br/>Ready to test before you build anything.</p>
+    <div class="card">
+      <div class="row">
+        <div class="btn-primary" role="button" id="draftOfferBtn">Yes, draft my offer →</div>
+        <div class="btn-secondary" role="button" id="skipOfferBtn">No thanks, I'm done</div>
+      </div>
+    </div>`;
+  }
+  if(state.loading) return lockedSummary + renderLoading();
+
+  const o = s.offer;
+  return `
+  ${lockedSummary}
+  <div class="eyebrow">Step 4 of the formula</div>
+  <h1 class="hero" style="font-size:2rem;">Your offer<br/><span class="accent">is ready to sell.</span></h1>
+  <div class="offer-block">
+    <div class="offer-name">${escapeHtml(o.offer_name)}</div>
+    <div class="price-tag">${escapeHtml(o.price)}</div>
+    <div class="label">The pitch</div><p>${escapeHtml(o.pitch)}</p>
+    <div class="label">Outcome promised</div><p>${escapeHtml(o.outcome)}</p>
+    <div class="label">Payment page copy</div><p>${escapeHtml(o.payment_copy)}</p>
+    <div class="label">Validation move (do this before building)</div><p>${escapeHtml(o.validation_move)}</p>
+    <div class="label">Sell it 24/7. Your setup checklist</div>
+    ${o.selling_steps && o.selling_steps.length ? `<ol style="padding-left:20px;margin:6px 0 0;">${o.selling_steps.map(step=>`<li style="margin-bottom:8px;line-height:1.55;color:#E8E6E2;font-size:.95rem;">${escapeHtml(step)}</li>`).join('')}</ol>` : ''}
+  </div>
+
+  ${!s.outreach ? `
+    <div class="card" style="margin-top:18px;">
+      <p style="margin:0 0 14px;color:var(--gray-600);font-size:.92rem;">Ready to send this to real people?<br/>I can draft the actual text, DM, and email.</p>
+      <div class="btn-primary" role="button" id="draftOutreachBtn">${s.outreachLoading?'Drafting...':'Draft outreach messages →'}</div>
+    </div>
+  ` : renderOutreach(s.outreach)}
+
+  ${renderBuildGuideSection()}
+
+  <div class="row" style="margin-top:18px;">
+    <div class="btn-small-tag" role="button" id="printBriefBtn">🖨 Print / Save as PDF</div>
+    <div class="btn-secondary" role="button" id="newTopicBtn3">Research another niche</div>
+  </div>
+  `;
+}
+
+function renderOutreach(o){
+  return `
+  <div style="margin-top:18px;">
+    <div class="eyebrow">First-customer outreach</div>
+    <div class="outreach-card">
+      <div class="ch-label">Text message (to someone you know)</div>
+      <pre>${escapeHtml(o.text_message)}</pre>
+    </div>
+    <div class="outreach-card">
+      <div class="ch-label">DM (social media)</div>
+      <pre>${escapeHtml(o.dm_message)}</pre>
+    </div>
+    <div class="outreach-card">
+      <div class="ch-label">Email${o.email_subject ? '. Subject: '+escapeHtml(o.email_subject) : ''}</div>
+      <pre>${escapeHtml(o.email)}</pre>
+    </div>
+  </div>`;
+}
+
+function renderBuildGuideSection(){
+  const s = state.session;
+  if(s.buildGuideLoading){
+    return `<div class="card" style="margin-top:18px;">
+      <div class="mini-loader"><div class="mini-spin"></div>Building your step-by-step creation guide. This takes about 30 seconds...</div>
+    </div>`;
+  }
+  if(!s.buildGuide){
+    return `<div class="card" style="margin-top:18px;">
+      <p style="margin:0 0 6px;font-weight:800;font-size:1rem;">Ready to actually build this?</p>
+      <p style="margin:0 0 14px;color:var(--gray-600);font-size:.92rem;">I'll pick the right AI tool for this format. Give you exact steps to set up a free account. Then give you every script, prompt, or template you need to create the full product. No experience needed.</p>
+      <div class="btn-primary" role="button" id="draftBuildGuideBtn">Show me how to build this →</div>
+    </div>`;
+  }
+  return renderBuildGuide(s.buildGuide);
+}
+
+function renderBuildGuide(g){
+  return `
+  <div class="build-guide">
+    <div class="eyebrow">Build your product</div>
+    <h2 style="font-family:'Archivo Black',sans-serif;font-size:1.4rem;margin:4px 0 14px;">Here is everything<br/><span style="color:var(--accent);">you need to build this.</span></h2>
+
+    <div class="build-tool-banner">
+      <div class="eyebrow" style="color:var(--accent);">The tool you will use</div>
+      <div class="tool-name">${escapeHtml(g.tool_name)}</div>
+      <a class="tool-url" href="${escapeAttr(g.tool_url)}" target="_blank">${escapeHtml(g.tool_url)}</a>
+      <p class="tool-why">${escapeHtml(g.tool_why)}</p>
+    </div>
+
+    <div class="build-section-title">Step 1. Create your free account</div>
+    ${g.account_steps.map((step,i)=>`
+      <div class="build-step">
+        <div class="build-step-num">${i+1}</div>
+        <div class="build-step-text">${escapeHtml(step)}</div>
+      </div>
+    `).join('')}
+
+    <div class="build-section-title" style="margin-top:24px;">Step 2. Create your content</div>
+    <p style="font-size:.88rem;color:var(--gray-600);margin:0 0 14px;line-height:1.5;">Each piece below is ready to use. Tap to expand, copy the content, and paste it into ${escapeHtml(g.tool_name)}.</p>
+    ${g.content_pieces.map((piece,i)=>`
+      <div class="content-piece" id="piece-${i}">
+        <div class="content-piece-header" data-piece="${i}">
+          <span class="content-piece-title">${escapeHtml(piece.title)}</span>
+          <span class="content-piece-toggle" id="toggle-${i}">▼</span>
+        </div>
+        <div class="content-piece-body" id="body-${i}">
+          <pre>${escapeHtml(piece.content)}</pre>
+          <div class="copy-chip" role="button" data-copy="${i}" data-text="${escapeAttr(piece.content)}">Copy this</div>
+        </div>
+      </div>
+    `).join('')}
+  </div>`;
+}
+
+function attachHandlers(){
+  const t = document.getElementById('topicInput');
+  if(t){
+    t.addEventListener('input', e=>state.session.topic=e.target.value);
+    t.addEventListener('keydown', e=>{ if(e.key==='Enter') startResearch(); });
+  }
+  bind('findNicheBtn','click',startResearch);
+  bind('openHistoryBtn','click',()=>{state.showHistory=true;render();});
+  bind('closeHistoryBtn','click',()=>{state.showHistory=false;render();});
+  const overlay = document.getElementById('historyOverlay');
+  if(overlay) overlay.addEventListener('click', e=>{ if(e.target===overlay){state.showHistory=false;render();} });
+  document.querySelectorAll('[data-history-idx]').forEach(el=>{
+    el.addEventListener('click', ()=>{ resumeHistory(parseInt(el.dataset.historyIdx)); });
+  });
+
+  document.querySelectorAll('[data-niche-idx]').forEach(el=>{
+    el.addEventListener('click', ()=>{ state.session.pickedNicheIdx=parseInt(el.dataset.nicheIdx); render(); });
+  });
+  bind('toValidateBtn','click',()=>{
+    if(state.session.pickedNicheIdx === null) state.session.pickedNicheIdx = 0;
+    state.session.step='validate';
+    state.error=null;
+    render();
+  });
+  bind('newTopicBtn','click',startNewTopicFlow);
+  bind('newTopicBtn2','click',startNewTopicFlow);
+  bind('newTopicBtn3','click',startNewTopicFlow);
+  bind('printBriefBtn','click',printBrief);
+
+  bind('backToNicheBtn','click',()=>{ state.session.step='niche'; render(); });
+  bind('backToNicheBtn2','click',()=>{ state.session.step='niche'; state.session.pickedFormatIdx=null; state.session.formats=null; state.session.competitors=null; render(); });
+  bind('backToFormatBtn','click',()=>{ state.session.step='format'; state.session.offer=null; state.session.outreach=null; render(); });
+
+  document.querySelectorAll('[data-answer-idx]').forEach(el=>{
+    el.addEventListener('input', e=>{ state.session.validation.answers[parseInt(el.dataset.answerIdx)] = e.target.value; });
+  });
+  bind('getVerdictBtn','click',getVerdict);
+  bind('continueFromValidateBtn','click',startFormatResearch);
+
+  document.querySelectorAll('[data-format-idx]').forEach(el=>{
+    el.addEventListener('click', ()=>{ state.session.pickedFormatIdx=parseInt(el.dataset.formatIdx); render(); });
+  });
+  bind('continueOfferBtn','click',()=>{
+    if(state.session.pickedFormatIdx === null) state.session.pickedFormatIdx = 0;
+    state.session.step='offer';
+    render();
+  });
+
+  bind('draftOfferBtn','click',draftOffer);
+  bind('skipOfferBtn','click',startNewTopicFlow);
+  bind('draftOutreachBtn','click',draftOutreach);
+  bind('draftBuildGuideBtn','click',draftBuildGuide);
+
+  document.querySelectorAll('[data-piece]').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const i = el.dataset.piece;
+      const body = document.getElementById('body-'+i);
+      const toggle = document.getElementById('toggle-'+i);
+      if(body){ body.classList.toggle('open'); }
+      if(toggle){ toggle.textContent = body && body.classList.contains('open') ? '▲' : '▼'; }
+    });
+  });
+  document.querySelectorAll('[data-copy]').forEach(el=>{
+    el.addEventListener('click', e=>{
+      e.stopPropagation();
+      navigator.clipboard.writeText(el.dataset.text).then(()=>{
+        el.textContent = 'Copied!'; el.classList.add('copied');
+        setTimeout(()=>{ el.textContent='Copy this'; el.classList.remove('copied'); }, 2000);
+      });
+    });
+  });
+}
+
+function bind(id,evt,fn){ const el=document.getElementById(id); if(el) el.addEventListener(evt,fn); }
+
+function resumeHistory(idx){
+  const snap = state.history[idx];
+  state.session = JSON.parse(JSON.stringify(snap));
+  state.showHistory = false;
+  state.error = null;
+  render();
+}
+
+function archiveCurrentIfNeeded(){
+  if(state.session.niches && state.session.niches.length){
+    state.history.unshift(JSON.parse(JSON.stringify(state.session)));
+  }
+}
+
+function startNewTopicFlow(){
+  archiveCurrentIfNeeded();
+  state.session = blankSession();
+  state.error = null;
+  render();
+}
+
+function escapeHtml(s){
+  if(s===undefined||s===null) return '';
+  return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function escapeAttr(s){ return escapeHtml(s); }
+
+async function callClaude(systemPrompt, userPrompt, useWebSearch, retries=3){
+  const body = { model:"claude-sonnet-5", max_tokens:4000, system:systemPrompt, messages:[{role:"user",content:userPrompt}] };
+  if(useWebSearch) body.tools = [{ type:"web_search_20250305", name:"web_search" }];
+  for(let attempt=0; attempt<retries; attempt++){
+    const resp = await fetch("/api/chat", {
+      method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)
+    });
+    if(resp.status === 429){
+      if(attempt < retries-1){
+        await new Promise(r=>setTimeout(r, (attempt+1)*3000));
+        continue;
+      }
+      throw new Error("The tool is busy right now. Please wait a few seconds and try again.");
+    }
+    if(!resp.ok) throw new Error("API request failed: "+resp.status);
+    const data = await resp.json();
+    return data.content.filter(b=>b.type==="text").map(b=>b.text).join("\n");
+  }
+}
+
+function extractJson(text){
+  // Strip markdown code fences if present
+  let cleaned = text.trim()
+    .replace(/^```json\s*/i,'')
+    .replace(/^```\s*/,'')
+    .replace(/```\s*$/,'');
+
+  // Find the first [ or { that actually starts a JSON structure
+  // by scanning forward until we hit one followed by valid JSON content
+  function findJsonStart(str, char){
+    let idx = str.indexOf(char);
+    while(idx !== -1){
+      // A real JSON array starts with [{ or [ followed by whitespace then {
+      // A real JSON object starts with { followed by " (key)
+      const peek = str.slice(idx).trimStart();
+      if(char === '[' && /^\[\s*[\[{"]/.test(peek)) return idx;
+      if(char === '{' && /^\{\s*"/.test(peek)) return idx;
+      idx = str.indexOf(char, idx + 1);
+    }
+    return -1;
+  }
+
+  const arrayStart = findJsonStart(cleaned, '[');
+  const objectStart = findJsonStart(cleaned, '{');
+
+  let start;
+  if(arrayStart === -1 && objectStart === -1) throw new Error("No JSON found in response");
+  else if(arrayStart === -1) start = objectStart;
+  else if(objectStart === -1) start = arrayStart;
+  else start = Math.min(arrayStart, objectStart);
+
+  const end = Math.max(cleaned.lastIndexOf(']'), cleaned.lastIndexOf('}'));
+  if(end === -1) throw new Error("No JSON found in response");
+
+  return JSON.parse(cleaned.substring(start, end + 1));
+}
+
+async function startResearch(){
+  if(!state.session.topic || !state.session.topic.trim()){
+    state.error = "Enter a topic first. Even a broad one like 'cooking' or 'parenting' works.";
+    render(); return;
+  }
+  state.error = null;
+  state.session.step = "researching";
+  state.session.createdAt = Date.now();
+  state.loading = true;
+  state.loadingStage = "Searching forums, reviews, and complaints...";
+  render();
+
+  const sys = `You are a sharp direct-response strategist who follows a specific 5-step formula for finding profitable digital product niches:
+1. Pick the most obvious niche where people already have an urgent, emotionally loaded problem they already spend money trying to fix.
+2. Find ONE specific, named, painful problem within that niche (not a vague category) — found by reading where people complain (Reddit, forums, reviews, comments) and spotting repeated emotional language.
+3. Validate using two tests: the dollar test (can they attach a real cost to this problem?) and the already-paid test (have they spent money trying to fix it before — books, apps, coaches?).
+
+You will research the web (forums, reviews, recent discussions) for real evidence before answering. Then return ONLY valid JSON, no markdown fences, no commentary — an array of exactly 3 objects ranked best-first, each with these exact keys:
+niche (string, specific not generic), problem (string, one named painful problem stated the way the audience would say it), already_paying (short phrase naming what they currently pay for), emotional_driver (one or two words like "shame", "fear", "overwhelm"), evidence_source (short phrase like "Reddit r/xyz, 40+ posts" or "Amazon reviews of [book]"), reasoning (1-2 short sentences max, plain and direct, explaining why this passes the dollar test and the already-paid test).
+
+Keep every text field brief. Most users read this on a phone, so favor short sentences over long ones. Never use em dashes (—) anywhere in your output; use a period or comma instead.`;
+
+  const userMsg = `Broad topic: "${state.session.topic.trim()}"\n\nResearch this topic thoroughly across multiple angles (forum complaints, product reviews, search trends) and return the 3 ranked niche/problem objects as specified.`;
+
+  try{
+    const raw = await callClaude(sys, userMsg, true);
+    state.session.niches = extractJson(raw);
+    state.session.step = "niche";
+  }catch(err){
+    state.error = "Something went wrong during research: "+err.message+". Try again, maybe with a more specific topic.";
+    state.session.step = "topic";
+  }
+  state.loading = false;
+  render();
+}
+
+async function getVerdict(){
+  const s = state.session;
+  const answered = s.validation.answers.filter(a=>a && a.trim().length>0);
+  if(answered.length===0){
+    state.error = "Paste at least one real answer before getting a verdict.";
+    render(); return;
+  }
+  state.error = null;
+  s.validation.loading = true;
+  render();
+
+  const niche = s.niches[s.pickedNicheIdx];
+  const sys = `You analyze niche validation answers against two tests from a proven formula: the DOLLAR TEST (can the person attach a real cost — money or time — to this problem?) and the ALREADY-PAID TEST (have they previously spent money trying to fix it — books, apps, coaches, courses?). Given real answers from people about a specific problem, return ONLY valid JSON, no markdown fences — one object with exact keys: verdict (either "Validated" or "Not yet validated"), dollar_test_summary (1 short sentence on whether answers show a real dollar cost), already_paid_summary (1 short sentence on whether answers show prior spending), reasoning (1-2 short sentences explaining the verdict), recommendation (1 short sentence on what to do next).
+
+Keep every field brief. Most users read this on a phone. Never use em dashes (—); use a period or comma instead.`;
+  const userMsg = `Niche: ${niche.niche}\nProblem being validated: ${niche.problem}\n\nReal answers collected from people (one per line, may be partial):\n${answered.map((a,i)=>`Person ${i+1}: ${a}`).join('\n')}\n\nAnalyze against the dollar test and already-paid test and return the verdict JSON.`;
+
+  try{
+    const raw = await callClaude(sys, userMsg, false);
+    s.validation.verdict = extractJson(raw);
+  }catch(err){
+    state.error = "Couldn't generate a verdict: "+err.message;
+  }
+  s.validation.loading = false;
+  render();
+}
+
+async function startFormatResearch(){
+  const s = state.session;
+  s.step = "format";
+  s.formats = null;
+  s.competitors = null;
+  state.loading = true;
+  state.loadingStage = "Matching this problem to the right format...";
+  render();
+
+  const niche = s.niches[s.pickedNicheIdx];
+  const sys = `You are a digital product strategist. Given a validated niche and problem, recommend 2-3 digital product FORMATS that best deliver the outcome for this specific problem.
+
+IMPORTANT NOTE ON VIDEO FORMATS: If you recommend any video-based format (video course, video library, tutorial series, etc.), you must make clear in the why_this_works field that the user does not need to be on camera, does not need to be an expert, and does not need prior knowledge of the topic. State that step-by-step instructions will be provided for creating high-quality, highly-valuable video content entirely using AI tools. Frame it as an advantage, not a caveat.
+
+STRICT RULE: every format must be a standalone, scalable digital asset that a customer pays once (or via subscription) to download or unlock access to, with NO live or ongoing involvement required from the seller after delivery. Good examples: ebook/guide (PDF), pre-recorded video course, template/swipe file pack, toolkit/spreadsheet, checklist + automated email sequence, notion/airtable system, plugin/script, paid newsletter archive, gated community resource library. NEVER recommend formats that require live calls, 1:1 coaching, cohort-based live challenges, consulting, freelance/done-for-you services, or anything where the seller must show up repeatedly to deliver value — those are services, not sellable digital assets, and are out of scope.
+
+Favor formats buildable in about a week using AI for research/structure (not AI-written content). Return ONLY valid JSON, no markdown fences, no commentary — an array of 2-3 objects with exact keys: name (string, specific product format name), build_time (short phrase like "3-5 days"), suggested_price (short phrase like "$27-$47" or "$197-$497"), difficulty (one of "Beginner-friendly", "Some skill needed", "Requires expertise"), why_this_works (1-2 short sentences max tying the format directly to this audience).
+
+Keep every field brief. Most users read this on a phone. Never use em dashes (—); use a period or comma instead.`;
+  const userMsg = `Niche: ${niche.niche}\nProblem: ${niche.problem}\nWhy people already pay: ${niche.already_paying}\nEmotional driver: ${niche.emotional_driver}\n\nRecommend the best 2-3 digital product formats for this.`;
+
+  try{
+    const raw = await callClaude(sys, userMsg, false);
+    s.formats = extractJson(raw);
+  }catch(err){
+    state.error = "Couldn't generate format options: "+err.message;
+    s.step = "niche";
+    state.loading = false;
+    render();
+    return;
+  }
+  state.loading = false;
+  render();
+  fetchCompetitors(niche);
+}
+
+async function fetchCompetitors(niche){
+  const s = state.session;
+  s.competitorsLoading = true;
+  render();
+  const sys = `You research existing competing products for a given problem. Return ONLY valid JSON, no markdown fences, no commentary — an array of 2-3 objects with exact keys: name (the existing product/course/book name), price (its price as a short string), what_it_misses (1 short sentence on a gap a new, more specific product could fill).
+
+Keep every field brief. Never use em dashes (—); use a period or comma instead. Base this on real web research.`;
+  const userMsg = `Niche: ${niche.niche}\nProblem: ${niche.problem}\n\nFind 2-3 existing products people currently buy to solve this, with prices and gaps.`;
+  try{
+    const raw = await callClaude(sys, userMsg, true);
+    s.competitors = extractJson(raw);
+  }catch(err){
+    s.competitors = [];
+  }
+  s.competitorsLoading = false;
+  render();
+}
+
+async function draftOffer(){
+  state.loading = true;
+  state.session.offer = null;
+  render();
+
+  const s = state.session;
+  const niche = s.niches[s.pickedNicheIdx];
+  const format = s.formats[s.pickedFormatIdx];
+
+  const sys = `You are a direct-response copywriter who follows the "sell before you build" principle: write one clear pitch, name the offer, set a price, and write short payment-page copy that sells the OUTCOME not the file — written so it can be tested with a payment link before the product exists. The offer is always for a self-serve digital asset (download or unlocked access) — never a live call, coaching session, or done-for-you service.
+
+You also give the seller a practical, concrete setup checklist for selling this 24/7 without manual work. Always recommend Lemon Squeezy (lemonsqueezy.com) as the platform for hosting and checkout, since it only charges 5% plus $0.50 per sale and is simple enough for a true beginner with no website. Do not recommend Gumroad. How to automate instant delivery after payment, and how a buyer can pay and receive the product at 3am with zero involvement from the seller.
+
+Return ONLY valid JSON, no markdown fences, no commentary — one object with exact keys: offer_name (catchy, specific, names the outcome and timeframe if relevant), price (string like "$47" or "$197"), pitch (2 short sentences max describing the problem and the outcome, written in first person as the seller), outcome (one short sentence, the concrete result the buyer gets), payment_copy (1-2 short sentences for the actual payment/confirmation page, including a delivery promise like "delivered within X days" or "instant access after payment"), validation_move (one short sentence telling the user exactly who to send this offer to first), selling_steps (an array of exactly 5 short, concrete, numbered-feeling steps as plain strings, each one practical action to set up fully automated 24/7 selling, naming an actual specific tool/platform where relevant, no vague advice, one sentence each).
+
+Keep every field brief. Most users read this on a phone, so favor short sentences and short paragraphs with white space over long blocks. Never use em dashes (—) anywhere; use a period or comma instead.`;
+  const userMsg = `Niche: ${niche.niche}\nProblem: ${niche.problem}\nFormat: ${format.name} (${format.build_time}, suggested price ${format.suggested_price})\n\nDraft the sellable offer.`;
+
+  try{
+    const raw = await callClaude(sys, userMsg, false);
+    s.offer = extractJson(raw);
+  }catch(err){
+    state.error = "Couldn't draft the offer: "+err.message;
+  }
+  state.loading = false;
+  render();
+}
+
+async function draftOutreach(){
+  const s = state.session;
+  s.outreachLoading = true;
+  render();
+  const niche = s.niches[s.pickedNicheIdx];
+  const o = s.offer;
+  const sys = `You write short, casual, non-salesy outreach messages for someone testing a brand-new offer before building the product, per the "sell before you build" principle. Keep sentences short with natural line breaks, like a real text or email, not a wall of text. Return ONLY valid JSON, no markdown fences, no commentary — one object with exact keys: text_message (a short, casual text to send a friend/contact who has this problem, under 40 words, sounds like a real person not an ad), dm_message (a slightly longer social media DM for someone less close, under 60 words), email_subject (a short plain subject line), email (a short email body for an existing list, under 90 words, broken into short paragraphs, includes the price and a call to action to reply or buy).
+
+Never use em dashes (—) anywhere; use a period or comma instead.`;
+  const userMsg = `Niche: ${niche.niche}\nProblem: ${niche.problem}\nOffer name: ${o.offer_name}\nPrice: ${o.price}\nPitch: ${o.pitch}\nPayment copy: ${o.payment_copy}\n\nDraft the outreach messages.`;
+  try{
+    const raw = await callClaude(sys, userMsg, false);
+    s.outreach = extractJson(raw);
+  }catch(err){
+    state.error = "Couldn't draft outreach messages: "+err.message;
+  }
+  s.outreachLoading = false;
+  render();
+}
+
+async function draftBuildGuide(){
+  const s = state.session;
+  s.buildGuideLoading = true;
+  s.buildGuide = null;
+  render();
+
+  const niche = s.niches[s.pickedNicheIdx];
+  const format = s.formats[s.pickedFormatIdx];
+  const offerName = s.offer ? s.offer.offer_name : format.name;
+  const outcome = s.offer ? s.offer.outcome : niche.problem;
+
+  const sys = `You are a beginner's AI product creation coach. Your job is to give someone with zero experience the exact tools, steps, and content they need to build a finished digital product. Write as if explaining to a smart 10-year-old who has never used any of these tools before.
+
+You will receive a digital product format, niche, problem, and offer name. Based on the format type, you will:
+
+1. Pick ONE specific free AI tool that is the best fit (examples: InVideo AI for AI video creation with no camera needed, Claude.ai or ChatGPT for written content like ebooks and guides, Canva for templates and visual assets, Google Sheets for toolkits and trackers). Pick the single best tool, not multiple.
+
+2. For VIDEO formats: pick InVideo AI or Pictory (choose whichever is better for the specific content). Make clear the user will never be on camera and needs zero knowledge of the topic. The AI tool will generate everything from a script. Generate 5 to 7 full video scripts (each 150 to 200 words) covering the key lessons or steps in the product. Each script should be complete and ready to paste directly into the video tool.
+
+3. For EBOOK or GUIDE formats: pick Claude.ai (free). Generate 5 to 7 complete chapter prompts. Each prompt should be a full, paste-ready instruction the user types into Claude to generate that chapter. Make each prompt specific and detailed enough to produce a high-quality chapter on its own.
+
+4. For TEMPLATE or CANVA formats: pick Canva (free). Generate 4 to 6 complete template descriptions with exact layout, text, colors, and placeholder content the user should create. Each description is detailed enough that the user can build it in Canva without guessing.
+
+5. For TOOLKIT, SPREADSHEET, or TRACKER formats: pick Google Sheets (free). Generate 4 to 6 sheet or tab descriptions with exact column headers, formulas if needed, and instructions. Also include one Claude.ai prompt to generate the written content that goes with it.
+
+6. For CHECKLIST or EMAIL SEQUENCE formats: pick Claude.ai (free). Generate the full checklist items or full email sequence prompts, each ready to paste in.
+
+Write account setup steps as if the user has never signed up for anything online before. Be specific: say "click the big Sign Up Free button" not just "sign up." No jargon. No assumed knowledge.
+
+Return ONLY valid JSON, no markdown fences, no commentary. One object with exact keys:
+- tool_name: string, the name of the one recommended tool
+- tool_url: string, the direct URL to the tool (e.g. "https://invideo.io")
+- tool_why: string, one short sentence explaining why this tool was chosen, in plain English
+- account_steps: array of 4 to 6 strings, each a plain-English step to create a free account and get ready to use it
+- content_label: string, a short label for the content section (e.g. "Your 6 Video Scripts" or "Your 5 Chapter Prompts")
+- content_pieces: array of objects, each with keys: title (string, short title for this piece) and content (string, the full script, prompt, or description, ready to copy and use)
+
+Never use em dashes. Keep sentences short. More white space is better.`;
+
+  const userMsg = `Format: ${format.name}
+Niche: ${niche.niche}
+Problem being solved: ${niche.problem}
+Offer name: ${offerName}
+Outcome for the buyer: ${outcome}
+
+Generate the full build guide as specified.`;
+
+  try{
+    const raw = await callClaude(sys, userMsg, false);
+    s.buildGuide = extractJson(raw);
+  }catch(err){
+    state.error = "Could not generate the build guide: "+err.message;
+  }
+  s.buildGuideLoading = false;
+  render();
+}
+
+function buildBriefText(){
+  const s = state.session;
+  let lines = [];
+  lines.push("NICHE FINDER PRO. BRIEF");
+  lines.push("Topic: " + s.topic);
+  lines.push("");
+  if(s.pickedNicheIdx!==null && s.niches){
+    const n = s.niches[s.pickedNicheIdx];
+    lines.push("NICHE: " + n.niche);
+    lines.push("PROBLEM: " + n.problem);
+    lines.push("Already paying for: " + n.already_paying);
+    lines.push("Emotional driver: " + n.emotional_driver);
+    lines.push("Evidence: " + n.evidence_source);
+    lines.push("Why it works: " + n.reasoning);
+    lines.push("");
+  }
+  if(s.validation && s.validation.verdict){
+    const v = s.validation.verdict;
+    lines.push("VALIDATION VERDICT: " + v.verdict);
+    lines.push("Dollar test: " + v.dollar_test_summary);
+    lines.push("Already-paid test: " + v.already_paid_summary);
+    lines.push("Reasoning: " + v.reasoning);
+    lines.push("Recommendation: " + v.recommendation);
+    lines.push("");
+  }
+  if(s.pickedFormatIdx!==null && s.formats){
+    const f = s.formats[s.pickedFormatIdx];
+    lines.push("PRODUCT FORMAT: " + f.name);
+    lines.push("Build time: " + f.build_time + " | Suggested price: " + f.suggested_price + " | Difficulty: " + f.difficulty);
+    lines.push("Why this format: " + f.why_this_works);
+    lines.push("");
+  }
+  if(s.competitors && s.competitors.length){
+    lines.push("EXISTING COMPETITORS:");
+    s.competitors.forEach(c=>{ lines.push("- " + c.name + " (" + c.price + "). Gap: " + c.what_it_misses); });
+    lines.push("");
+  }
+  if(s.offer){
+    lines.push("OFFER: " + s.offer.offer_name + ". " + s.offer.price);
+    lines.push("Pitch: " + s.offer.pitch);
+    lines.push("Outcome: " + s.offer.outcome);
+    lines.push("Payment page copy: " + s.offer.payment_copy);
+    lines.push("Validation move: " + s.offer.validation_move);
+    if(s.offer.selling_steps && s.offer.selling_steps.length){
+      lines.push("");
+      lines.push("SELL IT 24/7. SETUP CHECKLIST:");
+      s.offer.selling_steps.forEach((step,i)=>{ lines.push((i+1) + ". " + step); });
+    }
+    lines.push("");
+  }
+  if(s.buildGuide){
+    const g = s.buildGuide;
+    lines.push("");
+    lines.push("BUILD YOUR PRODUCT");
+    lines.push("Tool: " + g.tool_name + " (" + g.tool_url + ")");
+    lines.push("Why: " + g.tool_why);
+    lines.push("");
+    lines.push("STEP 1. CREATE YOUR FREE ACCOUNT");
+    g.account_steps.forEach((step,i)=>{ lines.push((i+1) + ". " + step); });
+    lines.push("");
+    lines.push("STEP 2. " + (g.content_label || "CREATE YOUR CONTENT").toUpperCase());
+    g.content_pieces.forEach((piece,i)=>{
+      lines.push("");
+      lines.push((i+1) + ". " + piece.title);
+      lines.push(piece.content);
+    });
+  }
+  if(s.outreach){
+    lines.push("OUTREACH: TEXT MESSAGE");
+    lines.push(s.outreach.text_message);
+    lines.push("");
+    lines.push("OUTREACH: DM");
+    lines.push(s.outreach.dm_message);
+    lines.push("");
+    lines.push("OUTREACH: EMAIL (Subject: " + (s.outreach.email_subject||'') + ")");
+    lines.push(s.outreach.email);
+  }
+  return lines.join("\n");
+}
+
+function downloadBrief(){
+  const text = buildBriefText();
+  const blob = new Blob([text], {type:"text/plain"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const niche = state.session.niches && state.session.pickedNicheIdx!==null ? state.session.niches[state.session.pickedNicheIdx].niche : state.session.topic;
+  const fname = ("NFP-brief-" + niche).toLowerCase().replace(/[^a-z0-9]+/g,'-').substring(0,60) + ".txt";
+  a.href = url; a.download = fname;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function buildBriefHtml(){
+  const s = state.session;
+  function section(title, content){ return `<div class="section"><h2>${title}</h2>${content}</div>`; }
+  function row(label, value){ if(!value) return ''; return `<div class="row"><span class="label">${label}</span><span class="value">${value}</span></div>`; }
+  function block(label, value){ if(!value) return ''; return `<div class="block"><div class="block-label">${label}</div><div class="block-body">${value}</div></div>`; }
+  const brandingTop = `<div class="brand-header"><img src="${LOGO_SRC}" alt="Serpico AI Learning Center"/><div class="brand-right"><div class="tool-title">Niche Finder Pro</div><span class="brand-org">Serpico AI Learning Center at CEI</span></div></div><div class="brief-title">Your Niche Brief</div><div class="topic-line">Topic researched: <strong>${escapeHtml(s.topic)}</strong></div>`;
+  let sections = '';
+  if(s.pickedNicheIdx!==null && s.niches){
+    const n=s.niches[s.pickedNicheIdx];
+    sections+=section('Chosen Niche',`<h3>${escapeHtml(n.niche)}</h3>${block('The Problem',escapeHtml(n.problem))}${row('Already paying for',escapeHtml(n.already_paying))}${row('Emotional driver',escapeHtml(n.emotional_driver))}${row('Evidence source',escapeHtml(n.evidence_source))}${block('Why this works',escapeHtml(n.reasoning))}`);
+  }
+  if(s.validation && s.validation.verdict){
+    const v=s.validation.verdict;
+    const cls=v.verdict&&v.verdict.toLowerCase().includes('not')?'verdict-fail':'verdict-pass';
+    sections+=section('Validation Verdict',`<div class="verdict ${cls}">${escapeHtml(v.verdict)}</div>${block('Dollar test',escapeHtml(v.dollar_test_summary))}${block('Already-paid test',escapeHtml(v.already_paid_summary))}${block('Reasoning',escapeHtml(v.reasoning))}${block('Recommendation',escapeHtml(v.recommendation))}`);
+  }
+  if(s.pickedFormatIdx!==null && s.formats){
+    const f=s.formats[s.pickedFormatIdx];
+    sections+=section('Chosen Product Format',`<h3>${escapeHtml(f.name)}</h3>${row('Build time',escapeHtml(f.build_time))}${row('Suggested price',escapeHtml(f.suggested_price))}${row('Difficulty',escapeHtml(f.difficulty))}${block('Why this format',escapeHtml(f.why_this_works))}`);
+  }
+  if(s.competitors&&s.competitors.length){
+    sections+=section('Competitor Pricing',s.competitors.map(c=>`<div class="competitor"><strong>${escapeHtml(c.name)}</strong><span class="price-tag">${escapeHtml(c.price)}</span><div class="gap">Gap you can fill: ${escapeHtml(c.what_it_misses)}</div></div>`).join(''));
+  }
+  if(s.offer){
+    const o=s.offer;
+    sections+=section('Your Sellable Offer',`<h3>${escapeHtml(o.offer_name)}</h3><div class="price-hero">${escapeHtml(o.price)}</div>${block('The pitch',escapeHtml(o.pitch))}${block('Outcome promised',escapeHtml(o.outcome))}${block('Payment page copy',escapeHtml(o.payment_copy))}${block('Validation move',escapeHtml(o.validation_move))}${o.selling_steps&&o.selling_steps.length?`<div class="block-label" style="margin-top:16px;">Sell it 24/7. Your setup checklist</div><ol class="steps-list">${o.selling_steps.map(st=>`<li>${escapeHtml(st)}</li>`).join('')}</ol>`:''}`);
+  }
+  if(s.outreach){
+    const o=s.outreach;
+    sections+=section('First-Customer Outreach',`${block('Text message',escapeHtml(o.text_message).replace(/\n/g,'<br/>'))}${block('DM (social media)',escapeHtml(o.dm_message).replace(/\n/g,'<br/>'))}${block('Email. Subject: '+escapeHtml(o.email_subject||''),escapeHtml(o.email).replace(/\n/g,'<br/>'))}`);
+  }
+  if(s.buildGuide){
+    const g=s.buildGuide;
+    sections+=section('Build Your Product: '+(g.content_label||''),`${row('Tool','<a href="'+escapeAttr(g.tool_url)+'">'+escapeHtml(g.tool_name)+'</a>')}${block('Why this tool',escapeHtml(g.tool_why))}<div class="block-label" style="margin-top:16px;">Step 1. Create your free account</div><ol class="steps-list">${g.account_steps.map(st=>`<li>${escapeHtml(st)}</li>`).join('')}</ol><div class="block-label" style="margin-top:20px;">Step 2. Your content pieces</div>${g.content_pieces.map((p,i)=>`<div class="content-piece"><div class="piece-title">${i+1}. ${escapeHtml(p.title)}</div><div class="piece-body">${escapeHtml(p.content).replace(/\n/g,'<br/>')}</div></div>`).join('')}`);
+  }
+  const brandingBottom=`<div class="brand-footer"><img src="${LOGO_SRC}" alt="Serpico AI Learning Center"/><div><div class="footer-tagline">Want help building this?</div><span class="brand-org">Serpico AI Learning Center at CEI</span></div></div>`;
+  const css=`*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Montserrat',sans-serif;background:#F7F6F4;color:#091F44;padding:0;}.page{max-width:720px;margin:0 auto;padding:40px 32px 60px;}a{color:#0F7BA8;text-decoration:none;}a:hover{text-decoration:underline;}.brand-header{display:flex;align-items:center;gap:16px;padding-bottom:20px;border-bottom:3px solid #091F44;margin-bottom:10px;}.brand-header img{height:64px;width:auto;mix-blend-mode:multiply;}.brand-right .tool-title{font-family:'Montserrat',sans-serif;font-weight:900;font-size:1.1rem;letter-spacing:.04em;text-transform:uppercase;color:#091F44;}.brand-right a{font-family:'Montserrat',sans-serif;font-size:.88rem;font-weight:700;color:#0F7BA8;}.brief-title{font-family:'Montserrat',sans-serif;font-size:2rem;font-weight:900;margin:24px 0 6px;color:#091F44;}.topic-line{font-family:'Montserrat',sans-serif;font-size:.9rem;color:#65605A;margin-bottom:32px;}.section{margin-bottom:28px;padding:22px 24px;background:#fff;border-radius:12px;border-left:5px solid #0F7BA8;box-shadow:0 1px 4px rgba(0,0,0,.06);}.section h2{font-family:'Montserrat',sans-serif;font-size:.85rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:#0F7BA8;margin-bottom:14px;}.section h3{font-family:'Montserrat',sans-serif;font-size:1.2rem;font-weight:900;margin-bottom:12px;color:#091F44;}.row{display:flex;gap:10px;margin-bottom:8px;font-family:'Montserrat',sans-serif;font-size:.88rem;}.row .label{font-weight:700;color:#65605A;min-width:130px;flex-shrink:0;}.row .value{color:#091F44;}.block{margin-bottom:14px;}.block-label{font-family:'Montserrat',sans-serif;font-size:.72rem;font-weight:900;text-transform:uppercase;letter-spacing:.07em;color:#65605A;margin-bottom:5px;}.block-body{font-family:'Montserrat',sans-serif;font-size:.95rem;line-height:1.65;color:#2A2723;}.verdict{font-family:'Montserrat',sans-serif;font-weight:900;font-size:1rem;padding:9px 14px;border-radius:8px;margin-bottom:14px;display:inline-block;}.verdict-pass{background:#F0FBF1;color:#2E9E3F;border:2px solid #2E9E3F;}.verdict-fail{background:#FFF8EE;color:#D98A1A;border:2px solid #D98A1A;}.competitor{padding:12px 0;border-bottom:1px solid #EFEDE9;}.competitor:last-child{border-bottom:none;}.competitor strong{font-family:'Montserrat',sans-serif;font-size:.95rem;}.price-tag{display:inline-block;background:#0F7BA8;color:#fff;font-family:'Montserrat',sans-serif;font-weight:700;font-size:.78rem;padding:2px 9px;border-radius:5px;margin-left:8px;vertical-align:middle;}.gap{font-size:.88rem;color:#65605A;margin-top:5px;}.price-hero{font-family:'Montserrat',sans-serif;font-size:1.6rem;font-weight:900;color:#0F7BA8;margin-bottom:14px;}.steps-list{padding-left:20px;margin-top:8px;}.steps-list li{font-family:'Montserrat',sans-serif;font-size:.92rem;line-height:1.65;margin-bottom:8px;color:#2A2723;}.content-piece{margin-top:14px;padding:14px;background:#F7F6F4;border-radius:8px;}.piece-title{font-family:'Montserrat',sans-serif;font-weight:900;font-size:.95rem;margin-bottom:8px;color:#091F44;}.piece-body{font-family:'Montserrat',sans-serif;font-size:.9rem;line-height:1.65;color:#2A2723;}.brand-footer{display:flex;align-items:center;gap:16px;margin-top:48px;padding-top:20px;border-top:3px solid #091F44;}.brand-footer img{height:56px;width:auto;mix-blend-mode:multiply;}.footer-tagline{font-family:'Montserrat',sans-serif;font-weight:900;font-size:.95rem;margin-bottom:3px;}.brand-footer a{font-family:'Montserrat',sans-serif;font-size:.88rem;font-weight:700;color:#0F7BA8;}.brand-org{font-family:'Montserrat',sans-serif;font-size:.88rem;font-weight:700;color:#0F7BA8;display:block;}@media print{body{background:#fff;}.page{padding:20px;}.section{box-shadow:none;}}`;
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Niche Finder Pro Brief. Serpico AI Learning Center</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet"><style>${css}</style></head><body><div class="page">${brandingTop}${sections}${brandingBottom}</div></body></html>`;
+}
+
+function printBrief(){
+  const html=buildBriefHtml();
+  const blob=new Blob([html],{type:'text/html'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  const niche=state.session.niches&&state.session.pickedNicheIdx!==null?state.session.niches[state.session.pickedNicheIdx].niche:state.session.topic;
+  const fname=("NFP-brief-"+niche).toLowerCase().replace(/[^a-z0-9]+/g,'-').substring(0,60)+".html";
+  a.href=url;a.download=fname;
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+render();
+</script>
+</body>
+</html>
